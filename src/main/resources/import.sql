@@ -4,5 +4,5 @@ INSERT INTO clientes (nombre, apellido, email, create_at) VALUES ('sasas', 'ffff
 INSERT INTO clientes (nombre, apellido, email, create_at) VALUES ('zazaza', 'ccc', 'dede@correo.com', '2025-11-01');
 INSERT INTO clientes (nombre, apellido, email, create_at) VALUES ('opopo', 'sss', 'jfrfrfr@correo.com', '2026-11-01');
 
-INSERT INTO user (role, country, firstname, lastname, password, username) VALUES (1, 'mexico', 'juan', 'pablo', '$2a$10$L8C0f7VQg3KdIqluSytCxuRD0.acfpc.jhoDQHLJQGPRl4j61cHZe', 'juan@gmail.com')
+INSERT INTO user (role, country, firstname, lastname, password, username) VALUES (1, 'mexico', 'juan', 'pablo', '$2a$10$0TL7Ak2VX35eR/OjLTbnuOslcZ1KGWe5kvXlBqWbDJ5S1.rs1PBwe', 'juan@gmail.com')
 

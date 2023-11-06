@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,11 +33,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
                 HttpServletResponse res = (HttpServletResponse) response;
                 res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
                 res.setHeader("Access-Control-Allow-Credentials", "true");
-                res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+                res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
                 res.setHeader("Access-Control-Max-Age", "3600");
                 res.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me, Authorization");
 
         final String token = getTokenFromRequest(request);
+        
         final String username;
 
         if(token == null){
@@ -44,21 +46,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
             return;
         }
 
-        username= jwtService.getUsernameFromToken(token);
+        try {
+            
+            username= jwtService.getUsernameFromToken(token);
+            
 
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                System.out.println("si");
+                if(jwtService.isTokenValid(token, userDetails)){
 
-            if(jwtService.isTokenValid(token, userDetails)){
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
 
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
 
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
 
             }
-
+        } catch (ExpiredJwtException e) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Invalid token");
         }
 
         filterChain.doFilter(request, response);
