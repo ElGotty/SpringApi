@@ -36,7 +36,7 @@ public class clienteRestController {
     private IClienteService clienteService;
     
     @GetMapping("/clientes")
-    public Page<Cliente> index(@Valid @RequestBody ClientIndexFilters filters){
+    public Page<Cliente> index(ClientIndexFilters filters){
         return clienteService.findAll(filters.getPageNumber(), filters.getPageSize());
     }
 
