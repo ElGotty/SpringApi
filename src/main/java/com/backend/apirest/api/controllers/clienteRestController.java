@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.apirest.api.model.entity.Cliente;
+import com.backend.apirest.api.model.filters.ClientIndexFilters;
 import com.backend.apirest.api.model.services.IClienteService;
 
 import jakarta.validation.Valid;
@@ -34,8 +36,8 @@ public class clienteRestController {
     private IClienteService clienteService;
     
     @GetMapping("/clientes")
-    public List<Cliente> index(){
-        return clienteService.findAll();
+    public Page<Cliente> index(@Valid @RequestBody ClientIndexFilters filters){
+        return clienteService.findAll(filters.getPageNumber(), filters.getPageSize());
     }
 
     @GetMapping("clientes/{id}")

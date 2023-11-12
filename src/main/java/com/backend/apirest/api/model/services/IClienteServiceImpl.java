@@ -1,8 +1,8 @@
 package com.backend.apirest.api.model.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +17,9 @@ public class IClienteServiceImpl implements IClienteService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<Cliente> findAll() {
+    public Page<Cliente> findAll(Integer pageNumber, Integer pageSize) {
         
-        return (List<Cliente>) clienteDao.findAll();
+        return clienteDao.findAll(PageRequest.of(pageNumber, pageSize));
 
     }
 
