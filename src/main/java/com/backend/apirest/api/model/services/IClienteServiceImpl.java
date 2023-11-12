@@ -19,7 +19,7 @@ public class IClienteServiceImpl implements IClienteService{
     @Transactional(readOnly = true)
     public Page<Cliente> findAll(Integer pageNumber, Integer pageSize) {
         
-        return clienteDao.findAll(PageRequest.of(pageNumber, pageSize));
+        return clienteDao.findAllByOrderByIdDesc(PageRequest.of(pageNumber, pageSize));
 
     }
 
