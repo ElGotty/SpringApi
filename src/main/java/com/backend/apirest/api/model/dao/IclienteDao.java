@@ -8,4 +8,6 @@ import com.backend.apirest.api.model.entity.Cliente;
 
 public interface IclienteDao extends JpaRepository<Cliente, Long> {
     Page<Cliente> findAllByOrderByIdDesc(PageRequest pageRequest);
+
+    boolean existsByEmail(String email);
 }

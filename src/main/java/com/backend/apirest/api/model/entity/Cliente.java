@@ -3,6 +3,8 @@ package com.backend.apirest.api.model.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.backend.apirest.api.validators.uniqueemail;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +37,7 @@ public class Cliente implements Serializable{
     @NotEmpty(message = "no puede estar vacio")
     @Email(message = "no es una direccion de correo valida")
     @Column(nullable = false, unique = true)
+    @uniqueemail
     private String email;
     
     @Column(name = "create_at")
