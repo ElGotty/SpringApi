@@ -27,17 +27,17 @@ import com.backend.apirest.api.model.services.IClienteService;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:4200")
 public class clienteRestController {
 
     @Autowired
     private IClienteService clienteService;
     
     @GetMapping("/clientes")
-    public Page<Cliente> index(ClientIndexFilters filters){
-        return clienteService.findAll(filters.getPageNumber(), filters.getPageSize());
+    public ResponseEntity<?> index(ClientIndexFilters filters){
+        return  new ResponseEntity<Page<Cliente>>(clienteService.findAll(filters.getPageNumber(), filters.getPageSize()), HttpStatus.OK);
     }
 
     @GetMapping("clientes/{id}")

@@ -10,4 +10,6 @@ public interface IclienteDao extends JpaRepository<Cliente, Long> {
     Page<Cliente> findAllByOrderByIdDesc(PageRequest pageRequest);
 
     boolean existsByEmail(String email);
+
+    boolean existsByEmailAndIdNot(String email, Long id);
 }

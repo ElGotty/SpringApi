@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = "http://localhost:4200")
 public class securityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -30,7 +30,7 @@ public class securityConfig {
         csrf.disable())
         .authorizeHttpRequests(authRequest ->
         authRequest.requestMatchers("/auth/**").permitAll()
-        .anyRequest().permitAll()
+        .anyRequest().authenticated()
         )
         .sessionManagement(sessionManager ->
         sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
